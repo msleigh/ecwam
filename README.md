@@ -1,10 +1,8 @@
-ecWAM
-*****
+# ecWAM
 
 The ECMWF wave model ecWAM
 
-Introduction
-============
+## Introduction
 
 The ECMWF Ocean Wave Model (ecWAM) describes the development and evolution of wind generated surface waves and their height, direction and period.
 ecWAM is solely concerned with ocean wave forecasting and does not model the ocean itself: dynamical modelling of the ocean can be done by an ocean model such as NEMO.
@@ -16,25 +14,22 @@ ecWAM is solely concerned with ocean wave forecasting and does not model the oce
 
 For more information, please go to https://confluence.ecmwf.int/display/FUG/2.2+Ocean+Wave+Model+-+ECWAM
 
-License
-=======
+## Licence
 
 ecWAM is distributed under the Apache License Version 2.0.
 See `LICENSE` file for details.
 
-Installing ecWAM
-================
+## Installing ecWAM
 
-Supported Platforms
--------------------
+### Supported Platforms
 
 - Linux
 - Apple MacOS
 
 Other UNIX-like operating systems may work too out of the box.
 
-Requirements
-------------
+### Requirements
+
 - Fortran and C compiler, and optionally C++ compiler
 - CMake (see https://cmake.org)
 - ecbuild (see https://github.com/ecmwf/ecbuild)
@@ -53,8 +48,7 @@ Some driver scripts to run tests and validate results rely on availability of:
 - md5sum (part of GNU Coreutils; on MacOS, install with `brew install coreutils`)
 - Python with pyyaml or fckit
 
-Building ecWAM
---------------
+### Building ecWAM
 
 Environment variables
 
@@ -103,10 +97,11 @@ Optionally, tests can be run to check succesful compilation, when the feature TE
 
     $ ctest
 
-### Generate derived-types data structures
+#### Generate derived-types data structures
+
 The derived-types storing grid-point data in ecWam can be configured in `src/ecwam/yowfield_mod_config.yaml`, which is used to expand the accompanying `src/ecwam/yowfield_mod.fypp` into Fortran derived-type objects. The glue-code required to turn the derived-types members into FIELD API objects is also generated.
 
-## Build using ecWAM bundle
+### Build using ecWAM bundle
 
 Another way of building ecWAM is to use the bundle definition included in `package/bundle`:
 
@@ -126,8 +121,7 @@ The following options can also be configured during the bundle build step:
 
 `--cmake-"OPTION=<arg>"`
 
-Running ecWAM
-=============
+## Running ecWAM
 
 Following are instructions to run ecWAM as a standalone wave forecasting tool.
 
@@ -193,8 +187,7 @@ One log file called `statistics.log` contains computed norms which can be used t
 Such validation will occur automatically when the configuration file contains a `validation` section.
 See [tests](tests) directory for example configuration files.
 
-Running with MPI
-----------------
+### Running with MPI
 
 Above commands by default run without MPI.
 To use MPI, or apply a custom command prefixed to the binary execution,
@@ -215,8 +208,8 @@ there are following options:
 Note that only `ecwam-run-model` currently supports MPI.
 
 
-GPU offload
-===========
+## GPU offload
+
 ecWAM can be offloaded for GPU execution. GPU optimised code for the wave propagation kernel is commited to source,
 whereas GPU code for the source-term computation is generated at build-time build-time using ECMWF's source-to-source
 translation toolchain Loki. Currently, three Loki transformations are supported:
@@ -229,8 +222,8 @@ OpenACC programming model on Nvidia GPUs is supported.
 
 NB: GPU offload is not supported for ecWAM 1.4.0 and 1.5.0.
 
-Building
---------
+### Building
+
 The recommended option for building the GPU enabled ecWAM is to use the provided bundle, and pass the
 `--with-loki --with-acc --with-static-linking` options. Different Loki transformations can also be chosen at
 build-time via the following bundle option: `--loki-mode=<trafo>`. Direct GPU-to-GPU MPI communications can be enabled by
@@ -239,21 +232,19 @@ by building with the `--with-cuda` option.
 
 The ecwam-bundle also provides appropriate arch files for the nvhpc suite on the ECMWF ATOS system.
 
-Running
--------
+### Running
+
 No extra run-time options are needed to run the GPU enabled ecWam. Please note that this means that if ecWam is built
 using the `--with-loki` and `--with-acc` bundle arguments, it will necessarily be offloaded for GPU execution.
 
-Environment variables
----------------------
+### Environment variables
 
 The Loki SCC transformation uses the CUDA runtime to manage temporary arrays and needs a large
  `NV_ACC_CUDA_HEAPSIZE`, e.g. `NV_ACC_CUDA_HEAPSIZE=4G`.
 
 For running with multiple OpenMP threads and grids finer than `O48`, `OMP_STACKSIZE` should be set to at least `256M`.
 
-Known issues
-============
+## Known issues
 
 1) On macOS arm64 with gfortran 12.2, and Open MPI 4.1.4, and with compilation
    with flag `-ffpe-trap=overflow`, the execution of `ecwam-preproc` and `ecwam-chief`
@@ -263,14 +254,12 @@ Known issues
    Floating point exceptions on arm64 manifest as a `SIGILL`.
 2) The coarsest configuration, i.e. `O48`, should be run with no more than one GPU.
 
-Reporting Bugs
-==============
+## Reporting Bugs
 
 Please report bugs using a [GitHub issue](https://github.com/ecmwf-ifs/ecwam/issues).
 Support is given on a best-effort basis by package developers.
 
-Contributing
-============
+## Contributing
 
 Contributions to ecWAM are welcome.
 In order to do so, please open a [GitHub issue](https://github.com/ecmwf-ifs/ecwam/issues) where
